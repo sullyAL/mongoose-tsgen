@@ -8,6 +8,14 @@ import * as cli from "./helpers/cli";
 import * as types from "./types";
 import { loadModels } from "./parser/utils";
 
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+// At the top level of your file
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace MongooseTsgen {
   export type FlagConfig = types.Normalize<
     Omit<Interfaces.InferredFlags<typeof MongooseTsgen["flags"]>, "help">
@@ -20,6 +28,7 @@ declare namespace MongooseTsgen {
   }
 }
 
+// eslint-disable-next-line no-redeclare
 class MongooseTsgen extends Command {
   static id = ".";
 
@@ -188,4 +197,8 @@ class MongooseTsgen extends Command {
   }
 }
 
-export = MongooseTsgen;
+export const run = async (): Promise<void> => {
+  return await MongooseTsgen.run(process.argv.slice(2));
+};
+
+export default MongooseTsgen;

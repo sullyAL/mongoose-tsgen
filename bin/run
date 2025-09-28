@@ -1,16 +1,23 @@
 #!/usr/bin/env node
 
-// const fs = require('fs')
-// const path = require('path')
+// import fs from 'fs'
+// import path from 'path'
+// import { fileURLToPath } from 'url'
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = path.dirname(__filename)
 // const project = path.join(__dirname, '../tsconfig.json')
 // const dev = fs.existsSync(project)
 
 // if (dev) {
-//   require('ts-node').register({project})
+//   const { register } = await import('ts-node')
+//   register({project})
 // }
 
-// require(`../${dev ? 'src' : 'lib'}`).run()
+// const { run } = await import(`../${dev ? 'src' : 'lib'}/index.js`)
 
-require(`../lib`).run()
-.then(require("@oclif/core/flush"))
-.catch(require("@oclif/core/handle"));
+import { run } from '../lib/index.js'
+import { flush, handle } from '@oclif/core'
+
+run()
+  .then(flush)
+  .catch(handle)
