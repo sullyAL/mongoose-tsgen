@@ -372,10 +372,10 @@ export const getModelTypes = (modelsPaths: string[], maxCommentDepth = 2): TsRea
   return allModelTypes;
 };
 
-export const registerUserTs = (
+export const registerUserTs = async (
   basePath: string,
   noExperimentalResolver: boolean
-): (() => void) | null => {
+): Promise<(() => void) | null> => {
   const pathToSearch = basePath.endsWith(".json")
     ? basePath
     : path.join(basePath, "**/tsconfig.json");
@@ -392,7 +392,9 @@ export const registerUserTs = (
     console.log("tsreader: Registering tsconfig.json with ts-node at path: " + foundPath);
   }
 
-  require("ts-node").register({
+  // Convert require to dynamic import
+  const { register } = await import("ts-node");
+  register({
     transpileOnly: true,
     project: foundPath,
     experimentalResolver: !noExperimentalResolver,
@@ -400,16 +402,6 @@ export const registerUserTs = (
       module: "commonjs",
       moduleResolution: "node"
     }
-    // The solution below would be more ideal, but it breaks for examples like https://github.com/francescov1/mongoose-tsgen/issues/134#issuecomment-2006954270.
-    // The module resolution is getting really weird with all the various module types and import strategies. We probably need to rethink how we handle this.
-
-    // https://github.com/TypeStrong/ts-node/issues/922#issuecomment-913361913
-    // "ts-node": {
-    //   // These options are overrides used only by ts-node
-    //   compilerOptions: {
-    //     module: "commonjs"
-    //   }
-    // }
   });
 
   // handle path aliases
@@ -429,10 +421,13 @@ export const registerUserTs = (
         );
       }
 
-      const cleanup = require("tsconfig-paths").register({
+      // Convert require to dynamic import
+      const { register: registerPaths } = await import("tsconfig-paths");
+      const cleanup = registerPaths({
         baseUrl,
         paths: tsConfig.compilerOptions.paths
       });
+
       if (process.env.DEBUG) {
         console.log("tsreader: tsconfig-paths registered");
       }

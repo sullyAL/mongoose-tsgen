@@ -14,6 +14,7 @@ declare class MongooseTsgen extends Command {
     static flags: {
         config: Interfaces.OptionFlag<string | undefined, Interfaces.CustomOptions>;
         "dry-run": Interfaces.BooleanFlag<boolean>;
+        help: Interfaces.BooleanFlag<boolean>;
         imports: Interfaces.OptionFlag<string[] | undefined, Interfaces.CustomOptions>;
         "no-format": Interfaces.BooleanFlag<boolean>;
         output: Interfaces.OptionFlag<string | undefined, Interfaces.CustomOptions>;

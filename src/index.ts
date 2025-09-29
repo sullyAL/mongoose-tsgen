@@ -146,7 +146,10 @@ class MongooseTsgen extends Command {
 
     const modelsPaths = paths.getModelsPaths(args.model_path);
 
-    const cleanupTs = tsReader.registerUserTs(flags.project, flags["no-experimental-resolver"]);
+    const cleanupTs = await tsReader.registerUserTs(
+      flags.project,
+      flags["no-experimental-resolver"]
+    );
 
     const generatedFilePath = paths.cleanOutputPath(flags.output);
     let sourceFile = generator.createSourceFile(generatedFilePath);

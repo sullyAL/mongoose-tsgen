@@ -168,14 +168,14 @@ export const loadModels = (modelsPaths: string[]): MongooseModel[] => {
     return true;
   };
 
-  modelsPaths.forEach((singleModelPath: string) => {
+  modelsPaths.forEach(async (singleModelPath: string) => {
     let exportedData;
     try {
       if (process.env.DEBUG) {
         console.log("parser: Attempting to import model from path: " + singleModelPath);
       }
 
-      exportedData = require(singleModelPath);
+      exportedData = await import(singleModelPath);
     } catch (err) {
       const error = (err as Error).message?.includes(`Cannot find module '${singleModelPath}'`)
         ? new Error(`Could not find a module at path ${singleModelPath}.`)

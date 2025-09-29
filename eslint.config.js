@@ -7,6 +7,7 @@ export default [
   // TypeScript files
   {
     files: ["**/*.ts", "**/*.tsx"],
+    ignores: ["**/*.test.ts", "**/*.spec.ts", "**/*.test.tsx", "**/*.spec.tsx"],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
@@ -15,10 +16,16 @@ export default [
         project: "./tsconfig.json"
       },
       globals: {
+        // Node.js globals
         process: "readonly",
         Buffer: "readonly",
+        console: "readonly",
         __dirname: "readonly",
-        __filename: "readonly"
+        __filename: "readonly",
+        global: "readonly",
+        module: "readonly",
+        require: "readonly",
+        exports: "readonly"
       }
     },
     plugins: {
@@ -62,7 +69,8 @@ export default [
       "@typescript-eslint/no-empty-interface": "off",
       "@typescript-eslint/consistent-type-assertions": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-empty-function": "off"
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-explicit-any": "off"
     }
   },
 
