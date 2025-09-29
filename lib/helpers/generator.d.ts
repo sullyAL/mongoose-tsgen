@@ -18,7 +18,7 @@ export declare const generateTypes: ({ sourceFile, imports, modelsPaths, noMongo
     imports?: string[];
     noMongoose: boolean;
     datesAsStrings: boolean;
-}) => SourceFile;
+}) => Promise<SourceFile>;
 export declare const saveFile: ({ sourceFile }: {
     sourceFile: SourceFile;
     generatedFilePath: string;

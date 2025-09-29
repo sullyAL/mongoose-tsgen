@@ -38,7 +38,7 @@ export declare const BASE_TYPES: Set<string | ObjectConstructor | StringConstruc
     allocUnsafeSlow(size: number): Buffer;
     poolSize: number;
 } | typeof mongoose.Schema.Types.Decimal128 | typeof mongoose.Schema.Types.Buffer | typeof mongoose.Schema.Types.Map | typeof mongoose.Types.ObjectId | typeof mongoose.Types.Decimal128>;
-export declare const loadModels: (modelsPaths: string[]) => MongooseModel[];
+export declare const loadModels: (modelsPaths: string[]) => Promise<MongooseModel[]>;
 export declare const getTypeFromKeyValue: ({ key, val: valOriginal, isDocument, shouldLeanIncludeVirtuals, noMongoose, datesAsStrings }: {
     key: string;
     val: any;

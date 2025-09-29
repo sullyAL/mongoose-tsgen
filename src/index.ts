@@ -153,7 +153,7 @@ class MongooseTsgen extends Command {
 
     const noMongoose = flags["no-mongoose"];
     const datesAsStrings = flags["dates-as-strings"];
-    sourceFile = generator.generateTypes({
+    sourceFile = await generator.generateTypes({
       modelsPaths,
       sourceFile,
       imports: flags.imports,
@@ -163,7 +163,7 @@ class MongooseTsgen extends Command {
 
     const modelTypes = tsReader.getModelTypes(modelsPaths);
     const models = loadModels(modelsPaths);
-    generator.replaceModelTypes(sourceFile, modelTypes, models);
+    generator.replaceModelTypes(sourceFile, modelTypes, await models);
 
     // only get model types (methods, statics, queries & virtuals) if user does not specify `noMongoose`,
     if (noMongoose) {
