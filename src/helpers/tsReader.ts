@@ -372,10 +372,7 @@ export const getModelTypes = (modelsPaths: string[], maxCommentDepth = 2): TsRea
   return allModelTypes;
 };
 
-export const registerUserTs = async (
-  basePath: string,
-  noExperimentalResolver: boolean
-): Promise<(() => void) | null> => {
+export const registerUserTs = async (basePath: string): Promise<(() => void) | null> => {
   const pathToSearch = basePath.endsWith(".json")
     ? basePath
     : path.join(basePath, "**/tsconfig.json");
@@ -388,23 +385,11 @@ export const registerUserTs = async (
     );
 
   const foundPath = path.join(process.cwd(), files[0]);
-  if (process.env.DEBUG) {
-    console.log("tsreader: Registering tsconfig.json with ts-node at path: " + foundPath);
-  }
 
-  // Convert require to dynamic import
-  const { register } = await import("ts-node");
-  register({
-    transpileOnly: true,
-    project: foundPath,
-    experimentalResolver: !noExperimentalResolver,
-    compilerOptions: {
-      module: "commonjs",
-      moduleResolution: "node"
-    }
-  });
+  // REMOVE ALL THE TS-NODE REGISTRATION CODE
+  // The loader already handles TypeScript compilation
 
-  // handle path aliases
+  // Only handle path aliases
   try {
     if (process.env.DEBUG) {
       console.log(
@@ -421,7 +406,6 @@ export const registerUserTs = async (
         );
       }
 
-      // Convert require to dynamic import
       const { register: registerPaths } = await import("tsconfig-paths");
       const cleanup = registerPaths({
         baseUrl,

@@ -3,6 +3,7 @@ import _ from "lodash";
 import pluralize from "pluralize";
 import { MongooseModel } from "./types";
 import { convertKeyValueToLine } from "../writer/stringBuilder";
+import { pathToFileURL } from "url";
 
 export const getSubdocName = (path: string, modelName = "") => {
   let subDocName =
@@ -175,7 +176,7 @@ export const loadModels = (modelsPaths: string[]): MongooseModel[] => {
         console.log("parser: Attempting to import model from path: " + singleModelPath);
       }
 
-      exportedData = await import(singleModelPath);
+      exportedData = await import(pathToFileURL(singleModelPath).href);
     } catch (err) {
       const error = (err as Error).message?.includes(`Cannot find module '${singleModelPath}'`)
         ? new Error(`Could not find a module at path ${singleModelPath}.`)
