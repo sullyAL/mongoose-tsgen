@@ -8,7 +8,9 @@ import mongoose from "mongoose";
 import { loadModels } from "../../parser/utils";
 
 function getExpectedString(filename: string) {
-  return fs.readFileSync(path.join(__dirname, `artifacts/${filename}`), "utf8");
+  return fs
+    .readFileSync(path.join(__dirname, `artifacts/${filename}`), "utf8")
+    .replace(/\r\n/g, "\n");
 }
 
 function cleanupModelsInMemory() {
@@ -47,7 +49,9 @@ describe("generateTypes", () => {
     generator.overloadQueryPopulate(sourceFile);
 
     cleanupTs?.();
-    expect(sourceFile.getFullText().trim()).toBe(getExpectedString("user.gen.ts").trim());
+    expect(sourceFile.getFullText().replace(/\r\n/g, "\n").trim()).toBe(
+      getExpectedString("user.gen.ts").trim()
+    );
   });
 
   test("generate file string with alt collection names", async () => {
@@ -69,7 +73,9 @@ describe("generateTypes", () => {
     generator.addPopulateHelpers(sourceFile);
     generator.overloadQueryPopulate(sourceFile);
     cleanupTs?.();
-    expect(sourceFile.getFullText().trim()).toBe(getExpectedString("files.gen.ts").trim());
+    expect(sourceFile.getFullText().replace(/\r\n/g, "\n").trim()).toBe(
+      getExpectedString("files.gen.ts").trim()
+    );
   });
 
   // TODO: the next 2 tests are kinda random and out of place. First one covers all the latest changes
@@ -95,7 +101,9 @@ describe("generateTypes", () => {
     generator.overloadQueryPopulate(sourceFile);
 
     cleanupTs?.();
-    expect(sourceFile.getFullText().trim()).toBe(getExpectedString("device.gen.ts").trim());
+    expect(sourceFile.getFullText().replace(/\r\n/g, "\n").trim()).toBe(
+      getExpectedString("device.gen.ts").trim()
+    );
   });
   test("generate other schema options", async () => {
     const modelsPaths = await paths.getModelsPaths("./src/helpers/tests/artifacts/user2.ts");
@@ -116,7 +124,9 @@ describe("generateTypes", () => {
     generator.overloadQueryPopulate(sourceFile);
 
     cleanupTs?.();
-    expect(sourceFile.getFullText().trim()).toBe(getExpectedString("user2.gen.ts").trim());
+    expect(sourceFile.getFullText().replace(/\r\n/g, "\n").trim()).toBe(
+      getExpectedString("user2.gen.ts").trim()
+    );
   });
 
   test("generate model with subdocument field named models", async () => {
@@ -139,7 +149,9 @@ describe("generateTypes", () => {
     generator.overloadQueryPopulate(sourceFile);
 
     cleanupTs?.();
-    expect(sourceFile.getFullText().trim()).toBe(getExpectedString("landingPage.gen.ts").trim());
+    expect(sourceFile.getFullText().replace(/\r\n/g, "\n").trim()).toBe(
+      getExpectedString("landingPage.gen.ts").trim()
+    );
   });
 });
 
@@ -336,9 +348,13 @@ describe("saveFile", () => {
   });
 
   test("throws error on invalid path", () => {
-    const sourceFile = generator.createSourceFile("/invalid/path/test.ts");
+    const invalidPath =
+      process.platform === "win32"
+        ? "Z:\\nonexistent\\deeply\\nested\\invalid\\path\\test.ts"
+        : "/invalid/path/test.ts";
+    const sourceFile = generator.createSourceFile(invalidPath);
     expect(() => {
-      generator.saveFile({ sourceFile, generatedFilePath: "/invalid/path/test.ts" });
+      generator.saveFile({ sourceFile, generatedFilePath: invalidPath });
     }).toThrow();
   });
 });

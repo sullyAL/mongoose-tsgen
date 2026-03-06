@@ -149,8 +149,8 @@ aMapOfSchemaArrays: Map<string, User2AMapOfSchemaArray[]>;
 anArrayOfSchemaMaps: (Map<string, User2AMapOfSchemaArray>)[];
 children: User2Child[];
 people: User2Person[];
-updatedAt?: Date;
 createdAt?: Date;
+updatedAt?: Date;
 }
 
 /**
@@ -325,8 +325,8 @@ aMapOfSchemaArrays: mongoose.Types.Map<mongoose.Types.Array<User2AMapOfSchemaArr
 anArrayOfSchemaMaps: mongoose.Types.Array<mongoose.Types.Map<User2AMapOfSchemaArrayDocument>>;
 children: mongoose.Types.DocumentArray<User2ChildDocument>;
 people: mongoose.Types.DocumentArray<User2PersonDocument>;
-updatedAt?: Date;
 createdAt?: Date;
+updatedAt?: Date;
 }
 
 /**

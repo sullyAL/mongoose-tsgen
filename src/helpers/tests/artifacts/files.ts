@@ -86,10 +86,10 @@ FilesSchema.statics = {
 
 // Query helpers
 FilesSchema.query = {
-  'by.brand'(brandName: string) {
+  'by.brand'(this: any, brandName: string) {
     return this.where({ 'brand-name': brandName });
   },
-  'with.metadata'() {
+  'with.metadata'(this: any) {
     return this.select('meta.data');
   }
 };

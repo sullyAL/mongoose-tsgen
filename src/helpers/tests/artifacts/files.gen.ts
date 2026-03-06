@@ -46,8 +46,8 @@ arrayItems: TestFilesArrayItem[];
 "function"?: string;
 interfaceMap?: Map<string, string>;
 _id: mongoose.Types.ObjectId;
-updatedAt?: Date;
 createdAt?: Date;
+updatedAt?: Date;
 full: {
 path: any;
 };
@@ -149,8 +149,8 @@ arrayItems: mongoose.Types.DocumentArray<TestFilesArrayItemDocument>;
 "function"?: string;
 interfaceMap?: mongoose.Types.Map<string>;
 _id: mongoose.Types.ObjectId;
-updatedAt?: Date;
 createdAt?: Date;
+updatedAt?: Date;
 full: {
 path: any;
 };
