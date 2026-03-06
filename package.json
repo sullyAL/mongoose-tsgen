@@ -98,7 +98,7 @@
     "posttest": "eslint .",
     "build": "rollup -c",
     "prepack": "npm test && rm -rf lib && npm run build",
-    "test": "npx jest --experimental-vm-modules",
+    "test": "npx jest",
     "readme": "./node_modules/@oclif/dev-cli/bin/run readme"
   },
   "types": "lib/index.d.ts",
